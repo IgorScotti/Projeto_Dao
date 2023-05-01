@@ -12,33 +12,47 @@ import model.entities.Seller;
 public class Program {
 
 	public static void main(String[] args) {
+
+
 		Scanner sc = new Scanner(System.in);
 		
-		SellerDao sellerDao = DaoFactory.createSellerDao();	
+		SellerDao sellerDao = DaoFactory.createSellerDao();
+		
+		System.out.println("=== TEST 1: seller findById =====");
+		Seller seller = sellerDao.findById(3);
+		System.out.println(seller);
+		
+		System.out.println("\n=== TEST 2: seller findByDepartment =====");
 		Department department = new Department(2, null);
-		
-		List<Seller> list = sellerDao.findAll();
-		
-		for (Seller obj: list) {
+		List<Seller> list = sellerDao.findByDepartment(department);
+		for (Seller obj : list) {
 			System.out.println(obj);
 		}
-		System.out.println("-----------------------------Teste Insert-----------------------------------");
-		
-		Seller newSeller = new Seller(null, "Igor", "igorscoti@hotmail.com", new Date(),4000.0 , department);
+
+		System.out.println("\n=== TEST 3: seller findAll =====");
+		list = sellerDao.findAll();
+		for (Seller obj : list) {
+			System.out.println(obj);
+		}
+
+		System.out.println("\n=== TEST 4: seller insert =====");
+		Seller newSeller = new Seller(null, "Greg", "greg@gmail.com", new Date(), 4000.0, department);
 		sellerDao.insert(newSeller);
-		
-		System.out.println("Inserida! new id = " + newSeller.getId());
-		System.out.println("-----------------------------Teste Update-----------------------------------");
-		newSeller = sellerDao.findById(1);
-		newSeller.setName("Martha Waine");
-		sellerDao.update(newSeller);
-		System.out.println("Update completado");
-		System.out.println("-----------------------------Teste Delete-----------------------------------");
-		System.out.println("Informe ID para ser Deleteado");
-		
-		int id = sc.nextInt();		
+		System.out.println("Inserted! New id = " + newSeller.getId());
+
+		System.out.println("\n=== TEST 5: seller update =====");
+		seller = sellerDao.findById(1);
+		seller.setName("Martha Waine");
+		sellerDao.update(seller);
+		System.out.println("Update completed");
+
+		System.out.println("\n=== TEST 6: seller delete =====");
+		System.out.println("Enter id for delete test: ");
+		int id = sc.nextInt();
 		sellerDao.deleteById(id);
-		System.out.println("delete completado");
+		System.out.println("Delete completed");
+		
+		sc.close();
 	}
 
 }
